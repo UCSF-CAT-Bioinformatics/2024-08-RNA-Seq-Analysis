@@ -47,13 +47,13 @@
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 18px;
-    color: #d3d3d3;
+    color: #F2F3F4;
     display: block;
     transition: 0.3s;
 }
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-    color: #002855;
+    color: #052049;
 }
 /* Position and style the close button (top right corner) */
 .sidenav .closebtn {
@@ -83,7 +83,7 @@ html, body {
 body {
   background-color: #fff;
   font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  color:#595959;
+  color:#D1D3D3;
   font-weight:400;
 }
 

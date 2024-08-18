@@ -1,6 +1,6 @@
 All documentation for the workshop is best viewed from the github.io pages
 
-[Documentation](https://ucdavis-bioinformatics-training.github.io/2024-June-RNA-Seq-Analysis/)
+[Documentation](https://ucsf-cat-bionformatics.github.io/2024-08-RNA-Seq-Analysis/)
 
 June 24, 2024 - June 28, 2024, 9 a.m. - 5:00 p.m daily. **online learning**
 
