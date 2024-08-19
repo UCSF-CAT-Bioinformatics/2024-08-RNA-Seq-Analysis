@@ -43,6 +43,6 @@ Recommendations for Beginners
 
 Enroll in introductory courses in CLI and/or R courses to get the maximum out of the course.
 
-### UC Davis Introductory Materials
+### Introductory Materials
 To get the most out of this course, please complete the prerequisite material in [command line](base/cli_prerequisites) and [R](base/r_prerequisites) before the course, and contact us with any questions.
 
