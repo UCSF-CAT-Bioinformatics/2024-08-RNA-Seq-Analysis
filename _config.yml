@@ -11,9 +11,9 @@ navigation:
   - title: Schedule
     url: base/schedule
   - title: What is Bioinformatics/Genomics?
-    url: https://raw.githubusercontent.com/ucdavis-bioinformatics-training/ucdavis-bioinformatics-training.presentations/master/genomics/Genomics_a_perspective_Dec_2021.pdf
+    url: 
   - title: Experimental Design and Cost Estimation
-    url: https://raw.githubusercontent.com/ucdavis-bioinformatics-training/ucdavis-bioinformatics-training.presentations/master/mrna/mRNAseq-expDesign_May_2020.pdf
+    url: 
   - title: Closing thoughts
     url: base/closing
 
@@ -30,10 +30,6 @@ navigation:
     url: data_reduction/02-alignment_mm
   - title: Generating counts tables
     url: data_reduction/03-counts_mm
-  - title: Alignment/Counts with Salmon (Extra)
-    url: data_reduction/02-salmon_mm
-  - title: 3' TagSeq
-    url: data_reduction/02-tagseq_mm
 
   - heading: Data analysis
   - title: Prepare R for data analysis
@@ -44,8 +40,6 @@ navigation:
     url: data_analysis/DE_Analysis_mm_with_quizzes
   - title: Pathway Analysis
     url: data_analysis/enrichment_mm_with_quizzes
-  - title: Comparison between STAR and Salmon
-    url: data_analysis/compare_star_salmon_mm
 
   - heading: Prerequisites
   - title: CLI
@@ -62,9 +56,9 @@ navigation:
     url: software_scripts/scripts_links
 
   - heading: ETC
-  - title: Github page
-    url: https://github.com/UCSF-CAT-Bionformatics/2024-08-RNA-Seq-Analysis
-  - title: Report Errors
-    url: https://github.com/UCSF-CAT-Bionformatics/2024-08-RNA-Seq-Analysis/issues
   - title: CAT website
     url: https://cat.ucsf.edu/
+  - title: Github page
+    url: https://github.com/UCSF-CAT-Bioinformatics/2024-08-RNA-Seq-Analysis
+  - title: Report Errors
+    url: https://github.com/UCSF-CAT-Bioinformatics/2024-08-RNA-Seq-Analysis/issues

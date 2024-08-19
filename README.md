@@ -2,7 +2,7 @@
 
 All documentation for the workshop is best viewed from the github.io pages
 
-[Documentation](https://ucsf-cat-bionformatics.github.io/2024-08-RNA-Seq-Analysis/)
+[Documentation](https://UCSF-CAT-Bioinformatics.github.io/2024-08-RNA-Seq-Analysis/)
 
 August 21, 2024 - August 23, 2024, 9 a.m. - 5:00 p.m Wed/Thurs, 9am to Noon Fri.
 
