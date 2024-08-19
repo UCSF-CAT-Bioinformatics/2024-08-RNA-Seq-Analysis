@@ -153,7 +153,7 @@ Navigate this page using the up and down arrow keys, PageUp and PageDown, and th
 
 <img src="figures/ls1.png" alt="ls1" width="800px"/>
 
-    ls -a /lib # shows ALL files, including hidden ones
+    ls -a /usr/bin # shows ALL files, including hidden ones
 
 <img src="figures/ls2.png" alt="ls2" width="800px"/>
 
@@ -180,7 +180,7 @@ And finally adding color (white for regular files, blue for directories, turquoi
 <img src="figures/ls6.png" alt="ls6" width="800px"/>
 
 
-Quick aside: what if I want to use same options repeatedly? and be lazy? You can create a shortcut to another command using 'alias'.
+**Quick aside:*** what if I want to use same options repeatedly? and be lazy? You can create a shortcut to another command using 'alias'.
 
     alias ll='ls -lah'
     ll
@@ -193,6 +193,8 @@ Quick aside: what if I want to use same options repeatedly? and be lazy? You can
 Usually, /home is where the user accounts reside, ie. users' 'home' directories.
 For example, for a user that has a username of “msettles”: their home directory is /home/msettles
 It is the directory that a user starts in after starting a new shell or logging into a remote server.
+
+On Apple Mac OS, the home directories are under /Users
 
 The tilde (~) is a short form of a user’s home directory.
 
@@ -257,7 +259,7 @@ The filesystem you're working on is like the branching root system of a tree. Th
 
     cd  # no effect? that's because by itself it sends you home (to ~)
     cd /  # go to root of tree's root system
-    cd home  # go to where everyone's homes are
+    cd home  # go to where everyone's homes are (on a Mac OS us /Users)
     pwd
     cd username  # use your actual home, not "username"
     pwd
@@ -280,14 +282,14 @@ You can think of paths like addresses. You can tell your friend how to go to a p
 
     cd /usr/bin  # let's start in /usr/bin
 
-**relative** (start here, take one step up, then down through lib and gcc)
+**relative** (start here, take one step up, then down through lib)
 
-    cd ../lib/gcc/
+    cd ../lib/
     pwd
 
 **absolute** (start at root, take steps)
 
-    cd /usr/lib/gcc/
+    cd /usr/lib/
     pwd
 
 Now, because it can be a real pain to type out, or remember these long paths, we need to discuss ...
@@ -314,7 +316,7 @@ myQuestions2 = [
     correctAnswer: "a"
   },
   {
-    question: "From the /usr/bin directory, verify that the two following commands are equivalent:<br/><br/>cd ../../lib/gcc/<br/>cd ../../../../../../../lib/gcc<br/><br/>Why are these very different-looking commands equivalent?",
+    question: "From the /usr/bin directory, verify that the two following commands are equivalent:<br/><br/>cd ../../lib/<br/>cd ../../../../../../../lib<br/><br/>Why are these very different-looking commands equivalent?",
     answers: {
       a: "The cd command knows where your home directory resides",
       b: "The terminal ignores excess dots",
@@ -420,16 +422,6 @@ myQuestions3 = [
       d: "You get an error message"
     },
     correctAnswer: "d"
-  },
-  {
-    question: "Use ls to find the size (in bytes) of the last file in the /sbin directory.",
-    answers: {
-      a: "33211",
-      b: "77064",
-      c: "1058216",
-      d: "1103"
-    },
-    correctAnswer: "b"
   }
 ];
 
@@ -443,6 +435,7 @@ submitButton3.addEventListener('click', function() {showResults(myQuestions3, qu
 
 Often it's useful to define a whole string of commands to run on some input, so that (1) you can be sure you're running the same commands on all data, and (2) so you don't have to type the same commands in over and over! Let's use the 'nano' text editor program that's pretty reliably installed on most linux systems.
 
+    cd ~
     nano test.sh
 
 <img src="figures/cli_figure7.png" alt="cli_figure7" width="800px"/>
