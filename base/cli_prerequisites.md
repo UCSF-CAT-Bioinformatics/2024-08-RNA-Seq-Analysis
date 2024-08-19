@@ -71,12 +71,13 @@ function showResults(myq, qc, rc){
 }
 </script>
 
-# Introduction to Command Line Interface
+# Command Line Interface
 
 A basic understanding of the command line interface (CLI) is highly recommended for success in this course. We will briefly review the commands necessary for this course on the first morning, but there will not be enough time to provide full instruction in CLI basics. Beginners without any previous knowledge will be able to complete this course, and achieve a more thorough understanding of the techniques and analyses covered, but will probably not be able to conduct an experiment on their own.
 
 The more confident you are in your command line skills, the more you will be able to explore the content in this course.
 
+**Super Brief Introduction to the Command Line**
 ## Outline:
 1. What is the command line?
 2. Logging into a remote server with ssh

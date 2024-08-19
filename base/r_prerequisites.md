@@ -67,6 +67,8 @@ RStudio and its team have contributed to many R packages.[13] These include:
 * packrat – Package dependency tool
 * devtools – Package development tool
 
+## Super Brief Introduction to the R in RStudio
+
 **1\.** Getting started
 
 Let's start RStudio
