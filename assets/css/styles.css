@@ -137,8 +137,8 @@ h1, h2, h3 {
 h1 {
   font-size:2em;
   font-weight: normal;
-  color: #002855;
-  background-color: #CCD4E0;
+  color: #052049;
+  background-color: #16A0AC;
   padding:5 5 5 5px;
   border-radius: 4px;
 
@@ -146,9 +146,9 @@ h1 {
 }
 
 h2 {
-  color:#002855;
+  color:#0F388A;
   font-weight: normal;
-  background-color: #FBF6E5;
+  background-color: #60D0DA;
   padding:5 5 5 5px;
   border-radius: 4px;
 
@@ -156,28 +156,29 @@ h2 {
 }
 
 h3, h4, h5, h6 {
-  color:#494949;
+  color:#178CCB;
   font-weight: 500;
+  background-color: #B4E2E8;
 }
 
 a {
-  color:#39c;
+  color:#8A8CE3;
   text-decoration:none;
 }
 
 a:hover {
-  color:#069;
+  color:#2E2872;
 }
 
 a small {
   font-size:11px;
-  color:#777;
+  color:#C0C0EA;
   margin-top:-0.3em;
   display:block;
 }
 
 a:hover small {
-  color:#777;
+  color:#443E8C;
 }
 
 .wrapper {
