@@ -11,9 +11,9 @@ navigation:
   - title: Schedule
     url: base/schedule
   - title: What is Bioinformatics/Genomics?
-    url: 
+    url: pdfs/Genomics_a_perspective_Aug_2024.pdf
   - title: Experimental Design and Cost Estimation
-    url: 
+    url: pdfs/mRNAseq-expDesign_Aug_2024.pdf
   - title: Closing thoughts
     url: base/closing
 
