@@ -4,7 +4,7 @@
 1. First lets make sure we are where we are supposed to be and that the References directory is available.
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
+    cd /share/workshop/$USER/rnaseq_example
     mkdir -p slurmout
     ```
 
@@ -121,7 +121,7 @@
     **IF For the sake of time, or for some reason it didn't finish, is corrupted, or you missed the session, you can link over a completed copy.** If the indexing job is still running, it should be canceled first.
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/
+    cd /share/workshop/$USER/
     mkdir -p References; cd References
     if [ -d star.overlap100.gencode.M35 ] then
       rm -rf star.overlap100.gencode.M35

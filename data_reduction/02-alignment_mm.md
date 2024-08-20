@@ -15,8 +15,8 @@
 To catch up to where we are:
 
 ```
-mkdir -p /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
-cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
+mkdir -p /share/workshop/$USER/rnaseq_example
+cd /share/workshop/$USER/rnaseq_example
 mkdir -p References
 
 refcheck=$(egrep "DONE: Genome generation" References/star.overlap100.gencode.M35/Log.out)
@@ -179,7 +179,7 @@ What does stranded and unstranded mean? Which is better and why? [Stranded vs Un
 1. We are now ready to try an alignment:
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/HTS_testing
+    cd /share/workshop/$USER/rnaseq_example/HTS_testing
     ```
 
     and let's run STAR (via srun) on the pair of streamed test files we created earlier:
@@ -234,14 +234,14 @@ What does stranded and unstranded mean? Which is better and why? [Stranded vs Un
     We need to index the BAM file:
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/HTS_testing
+    cd /share/workshop/$USER/rnaseq_example/HTS_testing
     samtools index mouse_110_WT_C.htstream_Aligned.sortedByCoord.out.bam
     ```
 
     **IF for some reason it didn't finish, is corrupted or you missed the session, you can copy over a completed copy.**
 
     ```bash
-    cp /share/biocore/workshops/2023-June-mRNASeq/HTS_testing/mouse_110_WT_C.htstream_Aligned.sortedByCoord.out.bam* /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/HTS_testing
+    cp /share/biocore/workshops/2023-June-mRNASeq/HTS_testing/mouse_110_WT_C.htstream_Aligned.sortedByCoord.out.bam* /share/workshop/$USER/rnaseq_example/HTS_testing
     ```
 
 2. Transfer mouse_110_WT_C.htstream_Aligned.sortedByCoord.out.bam and mouse_110_WT_C.htstream_Aligned.sortedByCoord.out.bam.bai (the index file) to your computer using scp,FileZilla or winSCP.
@@ -330,7 +330,7 @@ What does stranded and unstranded mean? Which is better and why? [Stranded vs Un
 1. We can now run STAR across all samples on the real data using a SLURM script, [star.slurm](../scripts/star.slurm), that we should take a look at now.
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example  # We'll run this from the main directory
+    cd /share/workshop/$USER/rnaseq_example  # We'll run this from the main directory
     wget https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2024-June-RNA-Seq-Analysis/master/software_scripts/scripts/star.slurm
     less star.slurm
     ```
@@ -407,7 +407,7 @@ When you are done, type "q" to exit.
     Use a script of ours, [star_stats.sh](../software_scripts/scripts/star_stats.sh) to collect the alignment stats. Don't worry about the script's contents at the moment; you'll use very similar commands to create a counts table in the next section. For now:
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example # We'll run this from the main directory
+    cd /share/workshop/$USER/rnaseq_example # We'll run this from the main directory
     wget https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2024-June-RNA-Seq-Analysis/master/software_scripts/scripts/star_stats.sh
     bash star_stats.sh
     ```
@@ -448,7 +448,7 @@ When you are done, type "q" to exit.
 
 **Questions:**
 1. Look at the script `star.slurm`. What does the `array=1-22` mean, why is it used, and what is the usage of it in the script itself?
-2. Look through the files in an output directory and check out what is present and discuss what each of them mean. (for example: `cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/02-STAR_alignment/mouse_110_WT_C` )
+2. Look through the files in an output directory and check out what is present and discuss what each of them mean. (for example: `cd /share/workshop/$USER/rnaseq_example/02-STAR_alignment/mouse_110_WT_C` )
 3. Come up with a brief command you might use to check that all of the sample alignments using STAR have a reasonable output and/or did not produce any errors.
 4. Open `summary_star_alignments.txt` in excel (or excel like application), and review. The table that this script creates ("summary_star_alignments.txt") can be pulled to your laptop via 'scp', or WinSCP, etc., and imported into a spreadsheet. Are all samples behaving similarly? Discuss ...
 5. If time, find some other regions/genes with high expression using IGV with your group. (Looking at genes the paper references is a great place to start)

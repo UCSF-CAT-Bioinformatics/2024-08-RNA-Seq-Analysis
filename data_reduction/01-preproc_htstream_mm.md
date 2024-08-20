@@ -3,7 +3,7 @@
 This document assumes [project_setup](./00-project_setup_mm.md) has been completed.
 
 ```bash
-cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
+cd /share/workshop/$USER/rnaseq_example
 ```
 
 ## Why Preprocess Reads
@@ -156,7 +156,7 @@ When building a new pipeline, it is almost always a good idea to use a small sub
 1. Let's start by first taking a small subsample of reads, so that our trial run through the pipeline goes really quickly.
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
+    cd /share/workshop/$USER/rnaseq_example
     mkdir HTS_testing
     cd HTS_testing
     pwd
@@ -180,7 +180,7 @@ When building a new pipeline, it is almost always a good idea to use a small sub
 1. Now we'll run our first preprocessing step ```hts_Stats```, first loading the module and then looking at help.
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/HTS_testing
+    cd /share/workshop/$USER/rnaseq_example/HTS_testing
     module load htstream
     hts_Stats --help
     ```
@@ -296,10 +296,10 @@ Save this file to your computer, and rename it to 'mouse_rrna.fasta'.
 
 Upload your mouse_rrna.fasta file **to the 'References' directory** in your project folder using either **scp** or FileZilla (or equivalent).
 
-Or if you feel like 'cheating', just copy/paste the contents of mouse_rrna.fa using nano into a file named /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/References/mouse_rrna.fasta
+Or if you feel like 'cheating', just copy/paste the contents of mouse_rrna.fa using nano into a file named /share/workshop/$USER/rnaseq_example/References/mouse_rrna.fasta
 
 ```bash
-nano /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/References/mouse_rrna.fasta
+nano /share/workshop/$USER/rnaseq_example/References/mouse_rrna.fasta
 ```
 
 Paste contents of mouse_rrna.fa and save
@@ -307,7 +307,7 @@ Paste contents of mouse_rrna.fa and save
 
 This is *really* cheating, but if all else fails, download the file as follows:
 ```bash
-cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/References
+cd /share/workshop/$USER/rnaseq_example/References
 wget https://ucdavis-bioinformatics-training.github.io/2024-June-RNA-Seq-Analysis/data_reduction/mouse_rrna.fasta
 ```
 
@@ -316,7 +316,7 @@ wget https://ucdavis-bioinformatics-training.github.io/2024-June-RNA-Seq-Analysi
 1. First, view the help documentation for hts_SeqScreener
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/HTS_testing
+    cd /share/workshop/$USER/rnaseq_example/HTS_testing
     hts_SeqScreener -h
     ```
 
@@ -345,7 +345,7 @@ wget https://ucdavis-bioinformatics-training.github.io/2024-June-RNA-Seq-Analysi
 1. Lets try it out. First run hts_Stats and then hts_SeqScreener in a streamed fashion.
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/HTS_testing
+    cd /share/workshop/$USER/rnaseq_example/HTS_testing
 
     hts_Stats -1 mouse_110_WT_C.subset_R1.fastq.gz \
               -2 mouse_110_WT_C.subset_R2.fastq.gz \
@@ -474,7 +474,7 @@ P5---Index-Read1primer-------INSERT-------Read2primer--index--P7(rc)
 This sequence is P7(rc): **ATCTCGTATGCCGTCTTCTGCTTG**. It should present in any R1 that contains a full-length adapter sequence. It is easy to search for this sequence using zcat and grep:
 
 ```bash
-cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/HTS_testing
+cd /share/workshop/$USER/rnaseq_example/HTS_testing
 zcat mouse_110_WT_C.subset_R1.fastq.gz | grep TCTCGTATGCCGTCTTCTGCTTG
 ```
 
@@ -523,7 +523,7 @@ Note that the very highly expressed transcript is [Lysozyme 2, ENSMUST0000009216
 --------
 
 ```bash
-cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/HTS_testing
+cd /share/workshop/$USER/rnaseq_example/HTS_testing
 
 hts_Stats -L mouse_110_WT_C_htsStats.json -N "initial stats" \
     -1 mouse_110_WT_C.subset_R1.fastq.gz \
@@ -564,7 +564,7 @@ Note the patterns:
 We can now run the preprocessing routine across all samples on the real data using a SLURM script, [hts_preproc.slurm](../software_scripts/scripts/hts_preproc.slurm), that we should take a look at now.
 
 ```bash
-cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example  # We'll run this from the main directory
+cd /share/workshop/$USER/rnaseq_example  # We'll run this from the main directory
 wget https://ucdavis-bioinformatics-training.github.io/2024-June-RNA-Seq-Analysis/software_scripts/scripts/hts_preproc.slurm
 less hts_preproc.slurm
 ```
@@ -630,7 +630,7 @@ echo $runtime
 Double check to make sure that slurmout and 01-HTS_Preproc directories have been created for output, then after looking at the script, let's run it.
 
 ```bash
-cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
+cd /share/workshop/$USER/rnaseq_example
 mkdir -p slurmout  # -p tells mkdir not to complain if the directory already exists
 mkdir -p 01-HTS_Preproc
 sbatch hts_preproc.slurm  # moment of truth!
@@ -676,7 +676,7 @@ The JSON files output by HTStream provide this type of information.
     First check all the "htstream_\*.out" and "htstream_\*.err" files:
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
+    cd /share/workshop/$USER/rnaseq_example
     cat slurmout/htstream_*.out
     ```
 
@@ -710,13 +710,13 @@ The JSON files output by HTStream provide this type of information.
     **IF for some reason HTStream didn't finish, the files are corrupted or you missed the session, please let one of us know and we will help. You can also copy over the HTStream output.**
 
     ```bash
-    cp -r /share/biocore/workshops/2020_mRNAseq_July/01-HTS_Preproc /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/.
+    cp -r /share/biocore/workshops/2020_mRNAseq_July/01-HTS_Preproc /share/workshop/$USER/rnaseq_example/.
     ```
 
 1. Let's take a look at the differences in adapter content between the input and output files. First look at the input file:
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
+    cd /share/workshop/$USER/rnaseq_example
     zless 00-RawData/mouse_110_WT_C/mouse_110_WT_C.R1.fastq.gz
     ```
 
@@ -780,7 +780,7 @@ Finally lets use [MultiQC](https://multiqc.info/) to generate a summary of our o
 
 ```bash
 ## Run multiqc to collect statistics and create a report:
-cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
+cd /share/workshop/$USER/rnaseq_example
 module load multiqc/htstream.1.13.dev0_beta
 mkdir -p 02-HTS_multiqc_report
 multiqc -i HTSMultiQC-cleaning-report -o 02-HTS_multiqc_report ./01-HTS_Preproc
@@ -797,7 +797,7 @@ Or in case of emergency, download this copy: [HTSMultiQC-cleaning-report_multiqc
     I've created a small R script to read in each json file, pull out some relevant stats and write out a table for all samples.
 
     ```/bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example  # We'll run this from the main directory
+    cd /share/workshop/$USER/rnaseq_example  # We'll run this from the main directory
     wget https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2020-mRNA_Seq_Workshop/master/software_scripts/scripts/summarize_stats.R
 
     module load R

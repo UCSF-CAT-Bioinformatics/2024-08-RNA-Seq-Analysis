@@ -1,13 +1,118 @@
 
-# The Dataset
+<script>
+function buildQuiz(myq, qc){
+  // variable to store the HTML output
+  const output = [];
 
-The paper
+  // for each question...
+  myq.forEach(
+    (currentQuestion, questionNumber) => {
+
+      // variable to store the list of possible answers
+      const answers = [];
+
+      // and for each available answer...
+      for(letter in currentQuestion.answers){
+
+        // ...add an HTML radio button
+        answers.push(
+          `<label>
+            <input type="radio" name="question${questionNumber}" value="${letter}">
+            ${letter} :
+            ${currentQuestion.answers[letter]}
+          </label><br/>`
+        );
+      }
+
+      // add this question and its answers to the output
+      output.push(
+        `<div class="question"> ${currentQuestion.question} </div>
+        <div class="answers"> ${answers.join('')} </div><br/>`
+      );
+    }
+  );
+
+  // finally combine our output list into one string of HTML and put it on the page
+  qc.innerHTML = output.join('');
+}
+
+function showResults(myq, qc, rc){
+
+  // gather answer containers from our quiz
+  const answerContainers = qc.querySelectorAll('.answers');
+
+  // keep track of user's answers
+  let numCorrect = 0;
+
+  // for each question...
+  myq.forEach( (currentQuestion, questionNumber) => {
+
+    // find selected answer
+    const answerContainer = answerContainers[questionNumber];
+    const selector = `input[name=question${questionNumber}]:checked`;
+    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+    // if answer is correct
+    if(userAnswer === currentQuestion.correctAnswer){
+      // add to the number of correct answers
+      numCorrect++;
+
+      // color the answers green
+      answerContainers[questionNumber].style.color = 'lightgreen';
+    }
+    // if answer is wrong or blank
+    else{
+      // color the answers red
+      answerContainers[questionNumber].style.color = 'red';
+    }
+  });
+
+  // show number of correct answers out of total
+  rc.innerHTML = `${numCorrect} out of ${myq.length}`;
+}
+</script>
+# Workshop Project Setup
+
+### Objectives
+
+Certainly! Here are the learning objectives based on the workshop outline:
+
+---
+
+### Learning Objectives
+
+1. **Understand the Workshop Sample Dataset**
+   - Familiarize yourself with the key findings and objectives of the study by Dorothée Selimoglu-Buet et al. on the miR-150/TET3 pathway and its role in monocyte differentiation.
+
+2. **Perform Data Organization and Management**
+   - Set up a well-structured project directory for RNA-seq data analysis, including the creation of directories for raw data, reference files, and preprocessing outputs.
+
+   - Organize your experiment folder with appropriate subdirectories to streamline the analysis process, ensuring all steps are well-documented and reproducible.
+
+   - Learn best practices for maintaining a clear and organized directory structure, enabling easy replication of the analysis process by others.
+
+3. **Link and Organize Raw Data Files**
+   - Create symbolic links to raw FASTQ files and generate a sample sheet to keep track of all sample names.
+
+4. **Review and Preview Raw Data**
+   - Explore the contents of FASTQ files, including identifying read structures, counting the number of reads, and determining read lengths.
+
+5. **Evaluate and Troubleshoot Sequencing Data**
+   - Assess the integrity and quality of sequencing data, and understand the sequencing run details, including the sequencer used, run number, and lane information.
+
+
+---
+
+These learning objectives will help participants focus on key skills and knowledge areas throughout the workshop.
+## The Dataset
 
 Dorothée Selimoglu-Buet, et al. ["A miR-150/TET3 pathway regulates the generation of mouse and human non-classical monocyte subset."](https://www.nature.com/articles/s41467-018-07801-x) Nature Communications volume 9, Article number: 5455 (2018)
 
 The project on the European Nucleotide Archive (ENA), [PRJEB29201](https://www.ebi.ac.uk/ena/browser/view/PRJEB29201).
 
 Relevant RNA sections of the paper
+## Abstract
+Non-classical monocyte subsets may derive from classical monocyte differentiation and the proportion of each subset is tightly controlled. Deregulation of this repartition is observed in diverse human diseases, including chronic myelomonocytic leukemia (CMML) in which non-classical monocyte numbers are significantly decreased relative to healthy controls. Here, we identify a down-regulation of hsa-miR-150 through methylation of a lineage-specific promoter in CMML monocytes. Mir150 knock-out mice demonstrate a cell-autonomous defect in non-classical monocytes. Our pulldown experiments point to Ten-Eleven-Translocation-3 (TET3) mRNA as a hsa-miR-150 target in classical human monocytes. We show that Tet3 knockout mice generate an increased number of non-classical monocytes. Our results identify the miR-150/TET3 axis as being involved in the generation of non-classical monocytes.
 
 ## Mouse models
 Wild-type CD45.1 and CD45.2, C57BL/6 animals expressing the GFP under human ubiquitin C promoter38 and miR-150−/− mice were purchased from Jackson Laboratories (Charles River France, L’Arbresle, France). Mice harboring Tet3 allele with the coding sequences of exon 11 flanked by two loxP, a strategy similar that described with the Tet2 allele69, were generated by the Plateforme Recombinaison homolog (Institut Cochin, Paris, France) and were intercrossed with mice expressing tamoxifen-inducible Cre (Cre-ERT) transgene under control of the Scl/Tal1 promoter/enhancer. To delete Tet3-floxed alleles, tamoxifen was solubilized at 20 mg/ml in sunflower oil (Sigma-Aldrich, Saint-Quentin Fallavier, France) and 8 mg tamoxifen were administered to mice once per day for 2 days via oral gavage. For competitive and rescue experiments, recipient mice were housed in a barrier facility under pathogen-free conditions after transplantation. Cell transfer experiments were performed in 8- to 12-week-old female mice.
@@ -33,26 +138,26 @@ First, create a directory for you and the example project in the workshop share 
 
 ```bash
 cd
-mkdir -p /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
+mkdir -p /share/workshop/$USER/rnaseq_example
 ```
 
 ## Link raw fastq files
 
-1. Next, go into that directory, create a raw data directory (we are going to call this 00-RawData) and cd into that directory. Lets then create symbolic links to the sample directories that contains the raw data.
+1. Next, go into that directory, create a raw data directory (we are going to call this 00-RawData) and cd into that directory. Lets then create symbolic links to the sample fastq files that contains the raw data.
 
     ```bash
-    cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
+    cd /share/workshop/$USER/rnaseq_example
     mkdir 00-RawData
     cd 00-RawData/
-    ln -s /share/biocore/workshops/2020_mRNAseq_July/00-RawData/* .
+    ln -s ln -s /share/workshop/original_dataset/00-RawData/* .
     ```
 
-    This directory now contains a folder for each sample and the fastq files for each sample are in the sample folders.
+    This directory now contains all of the sample fastq files for each sample.
 
-1. Let's create a sample sheet for the project and store sample names in a file called samples.txt
+2. Let's create a sample sheet for the project and store sample names in a file called samples.txt
 
     ```bash
-    ls > ../samples.txt
+    ls *.R1.fastq.gz | sed 's/\.R1\.fastq\.gz$//' > ../samples.txt
     cat ../samples.txt
     ```
 
@@ -61,31 +166,24 @@ mkdir -p /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
 1. Now, take a look at the raw data directory.
 
     ```bash
-    ls /share/workshop/mrnaseq_workshop/$USER/rnaseq_example/00-RawData
+    ls /share/workshop/$USER/rnaseq_example/00-RawData
     ```
 
-    You will see a list of the contents of each directory.
+    Lets get a better look at all the files.
 
     ```bash
-    ls *
+    ls -lah *
     ```
 
-    Lets get a better look at all the files in all of the directories.
+2. Pick a directory and go into it. View the contents of the files using the 'less' command, when gzipped used 'zless' (which is just the 'less' command for gzipped files):
 
     ```bash
-    ls -lah */*
-    ```
-
-1. Pick a directory and go into it. View the contents of the files using the 'less' command, when gzipped used 'zless' (which is just the 'less' command for gzipped files):
-
-    ```bash
-    cd mouse_110_WT_C/
     zless mouse_110_WT_C.R1.fastq.gz
     ```
 
     Make sure you can identify which lines correspond to a read and which lines are the header, sequence, and quality values. Press 'q' to exit this screen.
 
-1. Then, let's figure out the number of reads in this file. A simple way to do that is to count the number of lines and divide by 4 (because the record of each read uses 4 lines). In order to do this use cat to output the uncompressed file and pipe that to "wc" to count the number of lines:
+3. Then, let's figure out the number of reads in this file. A simple way to do that is to count the number of lines and divide by 4 (because the record of each read uses 4 lines). In order to do this use cat to output the uncompressed file and pipe that to "wc" to count the number of lines:
 
     ```bash
     zcat mouse_110_WT_C.R1.fastq.gz | wc -l
@@ -93,7 +191,7 @@ mkdir -p /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
 
     Divide this number by 4 and you have the number of reads in this file.
 
-1. One more thing to try is to figure out the length of the reads without counting each nucleotide. First get the first 4 lines of the file (i.e. the first record):
+4. One more thing to try is to figure out the length of the reads without counting each nucleotide. First get the first 4 lines of the file (i.e. the first record):
 
     ```bash
     zcat mouse_110_WT_C.R1.fastq.gz  | head -2 | tail -1
@@ -101,7 +199,7 @@ mkdir -p /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
 
     Note the header lines (1st and 3rd line) and sequence and quality lines (2nd and 4th) in each 4-line fastq block.
 
-1. Then, copy and paste the DNA sequence line into the following command (replace [sequence] with the line):
+5. Then, copy and paste the DNA sequence line into the following command (replace [sequence] with the line):
 
     ```bash
     echo -n [sequence] | wc -c
@@ -126,9 +224,8 @@ mkdir -p /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
 Now go back to your 'rnaseq_example' directory and create two directories called 'slurmout' and '01-HTS_Preproc':
 
 ```bash
-cd /share/workshop/mrnaseq_workshop/$USER/rnaseq_example
+cd /share/workshop/$USER/rnaseq_example
 mkdir References
-mkdir slurmout
 mkdir 01-HTS_Preproc
 ```
 
@@ -137,14 +234,91 @@ We'll put reference sequence, genome, etc. in the References directory. The resu
 Your directory should then look like the below:
 ```
 $ ls
-00-RawData  01-HTS_Preproc  References  samples.txt  slurmout
+00-RawData  01-HTS_Preproc  References  samples.txt
 ```
 
 ### Questions you should now be able to answer.
 
-1. How many reads are in the sample you checked?
-2. How many basepairs is R1, how many is R2?
-3. What is the name of the sequencer this dataset was run on?
-4. Which run number is this for that sequencer?
-5. What lane was this ran on?
-6. Randomly check a few samples, were they all run on the same sequencer, run, and lane?
+<div id="quiz1" class="quiz"></div>
+<button id="submit1">Submit Quiz</button>
+<div id="results1" class="output"></div>
+<script>
+quizContainer1 = document.getElementById('quiz1');
+resultsContainer1 = document.getElementById('results1');
+submitButton1 = document.getElementById('submit1');
+
+myQuestions1 = [
+  {
+    question: "How many samples are in this experiment?",
+    answers: {
+      a: "1",
+      b: "6",
+      c: "22",
+      d: "44"
+    },
+    correctAnswer: "c"
+  },
+  {
+    question: "How many reads are in the sample you checked?",
+    answers: {
+      a: "25000000",
+      b: "4000000",
+      c: "1256832",
+      d: "1"
+    },
+    correctAnswer: "b"
+  },
+  {
+    question: "How many basepairs is R1, how many is R2?",
+    answers: {
+      a: "100 and 100",
+      b: "100 and 50",
+      c: "101 and 101",
+      d: "50"
+    },
+    correctAnswer: "c"
+  },
+  {
+    question: "What is the name of the sequencer this dataset was run on?",
+    answers: {
+      a: "A00461",
+      b: "UCSFCAT",
+      c: "@A00461:28",
+      d: "HF2WYDMXX"
+    },
+    correctAnswer: "a"
+  }
+  {
+    question: "Which run number is this for that sequencer?",
+    answers: {
+      a: "HF2WYDMXX",
+      b: "1",
+      c: "1101",
+      d: "28"
+    },
+    correctAnswer: "d"
+  }
+  {
+    question: "What lane was this ran on?",
+    answers: {
+      a: "HF2WYDMXX",
+      b: "1",
+      c: "1101",
+      d: "28"
+    },
+    correctAnswer: "b"
+  }
+  {
+    question: "Randomly check a few samples, were they all run on the same sequencer, run, and lane?, Can you check them all quckly",
+    answers: {
+      a: "TRUE",
+      b: "FALSE",
+    },
+    correctAnswer: "a"
+  }
+];
+
+buildQuiz(myQuestions1, quizContainer1);
+submitButton1.addEventListener('click', function() {showResults(myQuestions1, quizContainer1, resultsContainer1);});
+</script>
+
