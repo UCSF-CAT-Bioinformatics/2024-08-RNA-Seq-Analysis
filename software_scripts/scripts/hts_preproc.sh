@@ -15,8 +15,8 @@ do
   echo "SAMPLE: ${sample}"
 
   call="hts_Stats -L ${outpath}/${sample}/${sample}.json -N 'initial stats' \
-            -1 ${inpath}/${sample}/*R1*.fastq.gz \
-            -2 ${inpath}/${sample}/*R2*.fastq.gz | \
+            -1 ${inpath}/${sample}.R1.fastq.gz \
+            -2 ${inpath}/${sample}.R2.fastq.gz | \
         hts_SeqScreener -A ${outpath}/${sample}/${sample}.json -N 'screen phix' | \
         hts_SeqScreener -A ${outpath}/${sample}/${sample}.json -N 'count the number of rRNA reads'\
             -r -s References/human_rrna.fasta | \
