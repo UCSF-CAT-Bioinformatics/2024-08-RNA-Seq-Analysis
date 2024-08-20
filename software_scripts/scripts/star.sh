@@ -1,6 +1,7 @@
 #!/bin/bash
 
-## assumes star
+## assumes star version 2.7.11b
+## assumes STAR is available on the Path
 
 start=`date +%s`
 echo $HOSTNAME
