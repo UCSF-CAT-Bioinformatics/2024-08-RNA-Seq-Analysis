@@ -1,10 +1,46 @@
-# Sequence Preprocessing
+# RNA Sequence Preprocessing
 
 This document assumes [project_setup](./00-project_setup_mm.md) has been completed.
 
 ```bash
 cd /share/workshop/$USER/rnaseq_example
 ```
+
+### Learning Objectives
+
+1. **Understand the Importance of Preprocessing RNA-seq Reads**
+   - Recognize the reasons for preprocessing RNA-seq reads, including improving mapping speed and quality, and eliminating unwanted sequences.
+
+   - Understand how preprocessing statistics are used for quality assessment and quality control (QA/QC) of RNA-seq data, including evaluating sample consistency and identifying technical issues.
+
+2. **Identify Common Preprocessing Steps**
+   - List common preprocessing steps such as removing unwanted sequences (vectors, adapters, primers), merging overlapping reads, removing low-quality bases, and eliminating PCR duplicates.
+
+3. **Analyze RNA-seq Library Preparation Details**
+   - Learn about different RNA-seq library preparation methods, such as the SureSelect Automated Strand Specific RNA Library Preparation Kit, and their impact on the strandedness of the library and read orientations.
+
+   - Determine how to confirm library strandedness by mapping reads to housekeeping genes and checking the orientation and presence of poly-A/T signals.
+
+4. **Follow a Standard RNA-seq Preprocessing Workflow**
+   - Understand the steps in a standard RNA-seq preprocessing workflow, including removing contaminants, PCR duplicates, and adapter sequences, trimming sequences by quality score, and generating preprocessing statistics.
+
+5. **Utilize HTStream for RNA-seq Preprocessing**
+   - Explore the features and benefits of HTStream for RNA-seq preprocessing, including its no-intermediate-files approach, reduced I/O, and ability to handle both single-end and paired-end reads.
+
+   - Learn how to use specific HTStream applications for various preprocessing tasks, such as adapter trimming, quality-based trimming, length filtering, and removal of contaminants.
+
+   - Gain practical skills in applying HTStream tools to preprocess RNA-seq data, including configuring custom pipelines and interpreting the output statistics.
+
+   - Understand the differences between traditional preprocessing pipelines and HTStream’s streaming approach, including the benefits of reduced storage and improved efficiency.
+
+6. **Understand HTStream Pipeline Components:**
+   - **Objective:** Explain the role and function of each component in the HTStream preprocessing pipeline, including `hts_Stats`, `hts_SeqScreener`, `hts_SuperDeduper`, `hts_AdapterTrimmer`, `hts_PolyATTrim`, `hts_NTrimmer`, `hts_QWindowTrim`, and `hts_LengthFilter`.
+   - **Outcome:** Be able to articulate how each tool contributes to data quality and why it is important in RNA-seq preprocessing.
+
+7.  **Preprocessing Workflow Optimization:**
+   - **Objective:** Assess and optimize the preprocessing workflow for different datasets, considering factors such as dataset size, sequencing depth, and specific research goals.
+   - **Outcome:** Develop and adjust preprocessing pipelines to maximize efficiency and accuracy for various RNA-seq projects.
+
 
 ## Why Preprocess Reads
 
