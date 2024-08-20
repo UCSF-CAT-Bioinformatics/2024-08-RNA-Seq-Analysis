@@ -218,11 +218,10 @@ So we ```zcat``` (uncompress and send to stdout), pipe ```|```  to ```head``` (p
 
 ```bash
 cd /share/workshop/$USER/rnaseq_example/HTS_testing
-module load htstream
 hts_Stats --help
 ```
 
-* *What version of hts_Stats is loaded? (v1.3.3)*
+* *What version of hts_Stats is loaded?
 
 
 1. Now lets run ```hts_Stats``` and look at the output.
@@ -273,17 +272,19 @@ ls -lah
 ```
 
 <div class="output">
-total 20M
-drwxrwsr-x 2 jli workshop    7 Jun 15 15:08 .
-drwxrwsr-x 8 jli workshop   32 Jun 15 15:06 ..
--rw-rw-r-- 1 jli workshop  40K Jun 15 15:07 mouse_110_WT_C.stats.json
--rw-rw-r-- 1 jli workshop 4.7M Jun 15 15:07 mouse_110_WT_C.stats_R1.fastq.gz
--rw-rw-r-- 1 jli workshop 5.0M Jun 15 15:07 mouse_110_WT_C.stats_R2.fastq.gz
--rw-rw-r-- 1 jli workshop 4.7M Jun 15 15:06 mouse_110_WT_C.subset_R1.fastq.gz
--rw-rw-r-- 1 jli workshop 5.0M Jun 15 15:06 mouse_110_WT_C.subset_R2.fastq.gz
+total 69M
+drwxrwxr-x 2 msettles msettles  269 Aug 20 23:24  .
+drwxrwxr-x 6 msettles msettles  102 Aug 20 23:20  ..
+-rw-rw-r-- 1 msettles msettles  71K Aug 20 23:25  mouse_110_WT_C.stats.json
+-rw-rw-r-- 1 msettles msettles 4.7M Aug 20 23:25  mouse_110_WT_C.stats_R1.fastq.gz
+-rw-rw-r-- 1 msettles msettles 5.0M Aug 20 23:25  mouse_110_WT_C.stats_R2.fastq.gz
+-rw-rw-r-- 1 msettles msettles 4.7M Aug 20 23:22  mouse_110_WT_C.subset_R1.fastq.gz
+-rw-rw-r-- 1 msettles msettles 5.0M Aug 20 23:22  mouse_110_WT_C.subset_R2.fastq.gz
+-rw-rw-r-- 1 msettles msettles  50M Aug 20 23:23  out.tab
 </div>
 
 * *Which files were generated from hts\_Stats? (mouse_110_WT_C.stats.json, mouse_110_WT_C.stats_R1.fastq.gz, mouse_110_WT_C.stats_R2.fastq.gz)*
+
 * *Did stats change any of the data (are the contents of mouse_110_WT_C.stats_R1.fastq.gz identical to mouse_110_WT_C.subset_R1.fastq.gz)? (no)*
 
 1. Lets look at the file **mouse_110_WT_C.stats.json**
@@ -345,7 +346,7 @@ Paste contents of mouse_rrna.fa and save
 This is *really* cheating, but if all else fails, download the file as follows:
 ```bash
 cd /share/workshop/$USER/rnaseq_example/References
-wget https://ucdavis-bioinformatics-training.github.io/2024-June-RNA-Seq-Analysis/data_reduction/mouse_rrna.fasta
+wget https://ucsf-cat-bioinformatics.github.io/2024-08-RNA-Seq-Analysis/datasets/mouse_rrna.fasta
 ```
 
 ### Using HTStream to count ribosomal rna (not remove, but just to count the occurrences).
@@ -600,8 +601,8 @@ We can now run the preprocessing routine across all samples on the real data usi
 
 ```bash
 cd /share/workshop/$USER/rnaseq_example  # We'll run this from the main directory
-wget https://ucdavis-bioinformatics-training.github.io/2024-June-RNA-Seq-Analysis/software_scripts/scripts/hts_preproc.slurm
-less hts_preproc.slurm
+wget https://ucsf-cat-bioinformatics.github.io/2024-08-RNA-Seq-Analysis/software_scripts/scripts/hts_preproc.sh
+less hts_preproc.sh
 ```
 
 When you are done, type "q" to exit.
