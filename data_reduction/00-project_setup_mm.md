@@ -71,6 +71,7 @@ function showResults(myq, qc, rc){
   rc.innerHTML = `${numCorrect} out of ${myq.length}`;
 }
 </script>
+
 # Workshop Project Setup
 
 ### Learning Objectives
@@ -95,9 +96,6 @@ function showResults(myq, qc, rc){
    - Assess the integrity and quality of sequencing data, and understand the sequencing run details, including the sequencer used, run number, and lane information.
 
 
----
-
-These learning objectives will help participants focus on key skills and knowledge areas throughout the workshop.
 ## The Dataset
 
 Dorothée Selimoglu-Buet, et al. ["A miR-150/TET3 pathway regulates the generation of mouse and human non-classical monocyte subset."](https://www.nature.com/articles/s41467-018-07801-x) Nature Communications volume 9, Article number: 5455 (2018)
@@ -130,10 +128,10 @@ Let's set up a project directory for the week, and talk a bit about project phil
 
 First, create a directory for you and the example project in the workshop share directory:
 
-```bash
-cd
-mkdir -p /share/workshop/$USER/rnaseq_example
-```
+    ```bash
+    cd
+    mkdir -p /share/workshop/$USER/rnaseq_example
+    ```
 
 ## Link raw fastq files
 
@@ -217,29 +215,29 @@ mkdir -p /share/workshop/$USER/rnaseq_example
 
 Now go back to your 'rnaseq_example' directory and create two directories called 'slurmout' and '01-HTS_Preproc':
 
-```bash
-cd /share/workshop/$USER/rnaseq_example
-mkdir References
-mkdir 01-HTS_Preproc
-```
+    ```bash
+    cd /share/workshop/$USER/rnaseq_example
+    mkdir References
+    mkdir 01-HTS_Preproc
+    ```
 
 We'll put reference sequence, genome, etc. in the References directory. The results of all our slurm script will output .out and .err files into the slurmout folder. The results of our preprocessing steps will be put into the 01-HTS_Preproc directory. The next step after that will go into a "02-..." directory, etc. You can collect scripts that perform each step, and notes and metadata relevant for each step, in the directory for that step. This way anyone looking to replicate your analysis has limited places to search for the commands you used. In addition, you may want to change the permissions on your original 00-RawData directory to "read only", so that you can never accidentally corrupt (or delete) your raw data. We won't worry about this here, because we've linked in sample folders.
 
 Your directory should then look like the below:
-```
+ ```
 $ ls
 00-RawData  01-HTS_Preproc  References  samples.txt
 ```
 
 ### Questions you should now be able to answer.
 
-<div id="quiz1" class="quiz"></div>
-<button id="submit1">Submit Quiz</button>
-<div id="results1" class="output"></div>
+<div id="quiz_setup1" class="quiz"></div>
+<button id="submit_setup1">Submit Quiz</button>
+<div id="results_setup1" class="output"></div>
 <script>
-quizContainer1 = document.getElementById('quiz1');
-resultsContainer1 = document.getElementById('results1');
-submitButton1 = document.getElementById('submit1');
+quizContainer1 = document.getElementById('quiz_setup1');
+resultsContainer1 = document.getElementById('results_setup1');
+submitButton1 = document.getElementById('submit_setup1');
 
 myQuestions1 = [
   {
@@ -281,7 +279,7 @@ myQuestions1 = [
       d: "HF2WYDMXX"
     },
     correctAnswer: "a"
-  }
+  },
   {
     question: "Which run number is this for that sequencer?",
     answers: {
@@ -291,7 +289,7 @@ myQuestions1 = [
       d: "28"
     },
     correctAnswer: "d"
-  }
+  },
   {
     question: "What lane was this ran on?",
     answers: {
@@ -301,7 +299,7 @@ myQuestions1 = [
       d: "28"
     },
     correctAnswer: "b"
-  }
+  },
   {
     question: "Randomly check a few samples, were they all run on the same sequencer, run, and lane?, Can you check them all quckly",
     answers: {
