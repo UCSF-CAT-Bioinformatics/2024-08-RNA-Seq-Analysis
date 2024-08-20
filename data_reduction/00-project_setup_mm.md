@@ -128,21 +128,22 @@ Let's set up a project directory for the week, and talk a bit about project phil
 
 First, create a directory for you and the example project in the workshop share directory:
 
-    ```bash
-    cd
-    mkdir -p /share/workshop/$USER/rnaseq_example
-    ```
+```bash
+cd
+mkdir -p /share/workshop/$USER/rnaseq_example
+```
 
 ## Link raw fastq files
 
 1. Next, go into that directory, create a raw data directory (we are going to call this 00-RawData) and cd into that directory. Lets then create symbolic links to the sample fastq files that contains the raw data.
 
-    ```bash
-    cd /share/workshop/$USER/rnaseq_example
-    mkdir 00-RawData
-    cd 00-RawData/
-    ln -s ln -s /share/workshop/original_dataset/00-RawData/* .
-    ```
+
+```bash
+cd /share/workshop/$USER/rnaseq_example
+mkdir 00-RawData
+cd 00-RawData/
+ln -s ln -s /share/workshop/original_dataset/00-RawData/* .
+```
 
     This directory now contains all of the sample fastq files for each sample.
 
