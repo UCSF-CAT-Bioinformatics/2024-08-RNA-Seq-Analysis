@@ -1,11 +1,5 @@
 # Files and File Types
 
-The primary file types you'll see related to DNA sequence analysis are:
-
-Here is a list of learning objectives based on the provided content about files and file types in DNA sequence analysis:
-
----
-
 ### Learning Objectives
 
 1. **Identify Key File Types in DNA Sequence Analysis**

@@ -73,12 +73,6 @@ function showResults(myq, qc, rc){
 </script>
 # Workshop Project Setup
 
-### Objectives
-
-Certainly! Here are the learning objectives based on the workshop outline:
-
----
-
 ### Learning Objectives
 
 1. **Understand the Workshop Sample Dataset**
