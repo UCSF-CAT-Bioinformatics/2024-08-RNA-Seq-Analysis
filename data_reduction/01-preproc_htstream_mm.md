@@ -205,8 +205,8 @@ pwd
 Then create a small dataset.
 
 ```bash
-zcat ../00-RawData/mouse_110_WT_C/mouse_110_WT_C.R1.fastq.gz | head -400000 | gzip > mouse_110_WT_C.subset_R1.fastq.gz
-zcat ../00-RawData/mouse_110_WT_C/mouse_110_WT_C.R2.fastq.gz | head -400000 | gzip > mouse_110_WT_C.subset_R2.fastq.gz
+zcat ../00-RawData/mouse_110_WT_C.R1.fastq.gz | head -400000 | gzip > mouse_110_WT_C.subset_R1.fastq.gz
+zcat ../00-RawData/mouse_110_WT_C.R2.fastq.gz | head -400000 | gzip > mouse_110_WT_C.subset_R2.fastq.gz
 ls -l
 ```
 
@@ -412,7 +412,6 @@ wget https://ucdavis-bioinformatics-training.github.io/2024-June-RNA-Seq-Analysi
 
     * *Try to figure out how to use hts_Stats in combination with grep to search for reads that contain the sequence "CCGTCTTCTGCTTG". How many were there? Do you notice anything strange about them?
 
-### <font color='red'> Stop Group Exercise 1 </font>
 
 --------
 
@@ -555,7 +554,6 @@ Note that the very highly expressed transcript is [Lysozyme 2, ENSMUST0000009216
 
 ### Lets put it all together
 
-### <font color='red'> Start Group Exercise 2 </font>
 
 --------
 
@@ -679,7 +677,6 @@ We can watch the progress of our task array using the 'squeue' command. Takes ab
 squeue -u $USER  # use your username
 ```
 
-### <font color='red'> End Group Exercise 2 </font>
 
 ## Quality Assurance - Preprocessing statistics as QA/QC.
 
@@ -704,9 +701,6 @@ The next step is to consider quality metrics for each sample. The key considerat
 
 The JSON files output by HTStream provide this type of information.
 
-
-
-### <font color='red'> Begin Group Exercise 3 </font>
 
 1. Let's make sure that all jobs completed successfully.
 
@@ -754,7 +748,7 @@ The JSON files output by HTStream provide this type of information.
 
     ```bash
     cd /share/workshop/$USER/rnaseq_example
-    zless 00-RawData/mouse_110_WT_C/mouse_110_WT_C.R1.fastq.gz
+    zless 00-RawData/mouse_110_WT_C.R1.fastq.gz
     ```
 
     Let's search for the adapter sequence. Type '/' (a forward slash), and then type **AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC** (the first part of the forward adapter). Press Enter. This will search for the sequence in the file and highlight each time it is found. You can now type "n" to cycle through the places where it is found. When you are done, type "q" to exit.
@@ -762,7 +756,7 @@ The JSON files output by HTStream provide this type of information.
     Now look at the output file:
 
     ```bash
-    zless 01-HTS_Preproc/mouse_110_WT_C/mouse_110_WT_C_R1.fastq.gz
+    zless 01-HTS_Preproc/mouse_110_WT_C_R1.fastq.gz
     ```
 
     If you scroll through the data (using the spacebar), you will see that some of the sequences have been trimmed. Now, try searching for **AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC** again. You shouldn't find it (adapters were trimmed remember), but rarely is anything perfect. You may need to use Control-C to get out of the search and then "q" to exit the 'less' screen.
@@ -770,21 +764,21 @@ The JSON files output by HTStream provide this type of information.
     Lets grep for the sequence and get an idea of where it occurs in the raw sequences:
 
     ```bash
-    zcat  00-RawData/mouse_110_WT_C/mouse_110_WT_C.R1.fastq.gz | grep --color=auto  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
+    zcat  00-RawData/mouse_110_WT_C.R1.fastq.gz | grep --color=auto  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
     ```
 
     * *What do you observe? Are these sequences useful for analysis?*
 
     ```bash
-    zcat  01-HTS_Preproc/mouse_110_WT_C/mouse_110_WT_C_R1.fastq.gz | grep --color=auto  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
+    zcat  01-HTS_Preproc/mouse_110_WT_C_R1.fastq.gz | grep --color=auto  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
     ```
 
 
     Lets grep for the sequence and count occurrences
 
     ```bash
-    zcat  00-RawData/mouse_110_WT_C/mouse_110_WT_C.R1.fastq.gz | grep  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC | wc -l
-    zcat  01-HTS_Preproc/mouse_110_WT_C/mouse_110_WT_C_R1.fastq.gz | grep  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC | wc -l
+    zcat  00-RawData/mouse_110_WT_C.R1.fastq.gz | grep  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC | wc -l
+    zcat  01-HTS_Preproc/mouse_110_WT_C_R1.fastq.gz | grep  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC | wc -l
     ```
 
     * *What is the reduction in adapters found?* (1704812)
