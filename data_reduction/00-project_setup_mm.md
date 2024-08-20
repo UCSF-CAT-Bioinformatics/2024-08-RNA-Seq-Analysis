@@ -247,10 +247,10 @@ We'll put reference sequence, genome, etc. in the References directory. The resu
 Your directory should then look like the below:
 
 
-```
+<div class="output">
 $ ls
 00-RawData  01-HTS_Preproc  References  samples.txt
-```
+</div>
 
 
 ### Questions you should now be able to answer.
