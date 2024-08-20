@@ -74,15 +74,17 @@ PCA/MDS plots of the preprocessing summary are a great way to look for technical
 
 In order to better understand and preprocess an RNA-seq data set (and to determine the types of problems we might encounter), it is a good idea to learn what type of library prep kit was used, and how it works.
 
-For this data set, [Selimoglu-Buet et al.](https://www.nature.com/articles/s41467-018-07801-x) report the following:
+For our data set, [Selimoglu-Buet et al.](https://www.nature.com/articles/s41467-018-07801-x) report the following:
 
 > *SureSelect Automated Strand Specific RNA Library Preparation Kit* was used according to the manufacturer’s instructions with the Bravo Platform. Briefly, 100 ng of total RNA sample was used for poly-A mRNA selection using oligo(dT) beads and subjected to thermal mRNA fragmentation. The fragmented mRNA samples were subjected to cDNA synthesis and were further converted into double-stranded DNA using the reagents supplied in the kit, and the resulting double-stranded DNA was used for library preparation. The final libraries were sequenced on an Hiseq 2000 for human samples and on [NovaSeq 6000](https://www.illumina.com/content/dam/illumina-marketing/documents/products/appnotes/novaseq-hiseq-q30-app-note-770-2017-010.pdf) for mice samples (Illumina) in paired-end 100 bp mode in order to reach at least 30 millions reads per sample at Gustave Roussy.
 
 Unfortunately the methods don't provide much information about the strandedness of the library. We can learn more by looking up the [user manual](https://www.agilent.com/cs/library/usermanuals/Public/G9691-90010.pdf). Often times manufacturer web sites and user manuals will contain some hints regarding analysis.
 
-> Sequence analysis guidelines
+````
+Sequence analysis guidelines
 
-> The SureSelect RNA sequencing library preparation method preserves RNA strandedness using dUTP second- strand marking. The sequence of read 1, which starts at the P5 end, matches the reverse complement of the poly- A RNA transcript strand. Read 2, which starts at the P7 end, matches the poly-A RNA transcript strand. When running analysis of this data to determine strandedness, it is important to include this information. For example, when using the Picard tools (https://broadinstitute.github.io/picard) to calculate RNA sequencing metrics, it is important to include the parameter STRAND_SPECIFICITY= SECOND_READ_TRANSCRIPTION_STRAND to correctly calculate the strand specificity metrics.
+The SureSelect RNA sequencing library preparation method preserves RNA strandedness using dUTP second- strand marking. The sequence of read 1, which starts at the P5 end, matches the reverse complement of the poly- A RNA transcript strand. Read 2, which starts at the P7 end, matches the poly-A RNA transcript strand. When running analysis of this data to determine strandedness, it is important to include this information. For example, when using the Picard tools (https://broadinstitute.github.io/picard) to calculate RNA sequencing metrics, it is important to include the parameter STRAND_SPECIFICITY= SECOND_READ_TRANSCRIPTION_STRAND to correctly calculate the strand specificity metrics.
+````
 
 Agilent has also produced a [poster](https://www.agilent.com/cs/library/posters/Public/ASHG-poster-SureSelect-strand-specific%20RNA%20library-prep-kit-fast-streamlined-workflow-for-libraries-from-total-RNA.pdf) with additional details about the qualities of this library. The figures below provide additional detail about the library and what to expect.
 
@@ -155,17 +157,17 @@ Paired end reads are 6 columns:
 
 HTStream includes the following applications:
 
-hts_AdapterTrimmer: Identify and remove adapter sequences.  
-hts_CutTrim: Discreet 5' and/or 3' basepair trimming.  
-hts_LengthFilter: Remove reads outside of min and/or max length.  
-hts_NTrimmer: Extract the longest subsequence with no Ns.    
-hts_Overlapper: Overlap paired end reads, removing adapters when present.  
-hts_PolyATTrim: Identify and remove polyA/T sequence.  
-hts_Primers: Identify and optionally remove 5' and/or 3' primer sequence.  
-hts_QWindowTrim: 5' and/or 3' quality score base trimming using windows.  
-hts_SeqScreener: Identify and remove/keep/count contaminants (default phiX).  
-hts_Stats: Compute read stats.  
-hts_SuperDeduper: Identify and remove PCR duplicates.  
+- hts_AdapterTrimmer: Identify and remove adapter sequences.  
+- hts_CutTrim: Discreet 5' and/or 3' basepair trimming.  
+- hts_LengthFilter: Remove reads outside of min and/or max length.  
+- hts_NTrimmer: Extract the longest subsequence with no Ns.    
+- hts_Overlapper: Overlap paired end reads, removing adapters when present.  
+- hts_PolyATTrim: Identify and remove polyA/T sequence.  
+- hts_Primers: Identify and optionally remove 5' and/or 3' primer sequence.  
+- hts_QWindowTrim: 5' and/or 3' quality score base trimming using windows.  
+- hts_SeqScreener: Identify and remove/keep/count contaminants (default phiX).  
+- hts_Stats: Compute read stats.  
+- hts_SuperDeduper: Identify and remove PCR duplicates.  
 
 The source code and pre-compiled binaries for Linux can be downloaded and installed [from the GitHub repository](https://github.com/s4hts/HTStream).
 
@@ -177,8 +179,7 @@ If you encounter any bugs or have suggestions for improvement, please post them 
 
 --------
 
-# HTStream tutorial
-
+# HTStream Tutorial
 
 ### <font color='red'> Start Group Exercise 1: </font>
 
@@ -191,107 +192,107 @@ When building a new pipeline, it is almost always a good idea to use a small sub
 
 1. Let's start by first taking a small subsample of reads, so that our trial run through the pipeline goes really quickly.
 
-    ```bash
-    cd /share/workshop/$USER/rnaseq_example
-    mkdir HTS_testing
-    cd HTS_testing
-    pwd
-    ```
+```bash
+cd /share/workshop/$USER/rnaseq_example
+mkdir HTS_testing
+cd HTS_testing
+pwd
+```
 
-    * *Why run ```pwd``` here?*
+* *Why run ```pwd``` here?*
 
 
-    Then create a small dataset.
+Then create a small dataset.
 
-    ```bash
-    zcat ../00-RawData/mouse_110_WT_C/mouse_110_WT_C.R1.fastq.gz | head -400000 | gzip > mouse_110_WT_C.subset_R1.fastq.gz
-    zcat ../00-RawData/mouse_110_WT_C/mouse_110_WT_C.R2.fastq.gz | head -400000 | gzip > mouse_110_WT_C.subset_R2.fastq.gz
-    ls -l
-    ```
+```bash
+zcat ../00-RawData/mouse_110_WT_C/mouse_110_WT_C.R1.fastq.gz | head -400000 | gzip > mouse_110_WT_C.subset_R1.fastq.gz
+zcat ../00-RawData/mouse_110_WT_C/mouse_110_WT_C.R2.fastq.gz | head -400000 | gzip > mouse_110_WT_C.subset_R2.fastq.gz
+ls -l
+```
 
-    So we ```zcat``` (uncompress and send to stdout), pipe ```|```  to ```head``` (param -400000) then pipe to ```gzip``` to recompress and name our files subset.
+So we ```zcat``` (uncompress and send to stdout), pipe ```|```  to ```head``` (param -400000) then pipe to ```gzip``` to recompress and name our files subset.
 
-    * *How many reads are we going to analyze in our subset? (100000)*
+* *How many reads are we going to analyze in our subset? (100000)*
 
 1. Now we'll run our first preprocessing step ```hts_Stats```, first loading the module and then looking at help.
 
-    ```bash
-    cd /share/workshop/$USER/rnaseq_example/HTS_testing
-    module load htstream
-    hts_Stats --help
-    ```
+```bash
+cd /share/workshop/$USER/rnaseq_example/HTS_testing
+module load htstream
+hts_Stats --help
+```
 
-    * *What version of hts_Stats is loaded? (v1.3.3)*
+* *What version of hts_Stats is loaded? (v1.3.3)*
 
 
 1. Now lets run ```hts_Stats``` and look at the output.
 
-    ```bash
-    hts_Stats -1 mouse_110_WT_C.subset_R1.fastq.gz \
-              -2 mouse_110_WT_C.subset_R2.fastq.gz \
-              -L mouse_110_WT_C.stats.json > out.tab
-    ```
+```bash
+hts_Stats -1 mouse_110_WT_C.subset_R1.fastq.gz \
+            -2 mouse_110_WT_C.subset_R2.fastq.gz \
+            -L mouse_110_WT_C.stats.json > out.tab
+```
 
-    * *What happens if you run hts_Stats without piping output to out.tab? (results are output to the screen)*
+* *What happens if you run hts_Stats without piping output to out.tab? (results are output to the screen)*
 
-    * *Can you think of a way to view the output from hts_Stats in __less__ without creating out.tab?* (by replacing "> out.tab" by ```|``` less)
+* *Can you think of a way to view the output from hts_Stats in __less__ without creating out.tab?* (by replacing "> out.tab" by ```|``` less)
 
-    By default, all HTS apps output tab formatted files to the stdout.
+By default, all HTS apps output tab formatted files to the stdout.
 
-    Take a look at the output (remember ```q``` quits):
-    ```bash
-    less out.tab
-    ```
+Take a look at the output (remember ```q``` quits):
+```bash
+less out.tab
+```
 
-    The output was difficult to understand, lets try without line wrapping (note that you can also type ```-S``` from within ```less``` if you forget). Scroll with the arrow keys, left, right, up, and down.
-    ```bash
-    less -S out.tab
-    ```
+The output was difficult to understand, lets try without line wrapping (note that you can also type ```-S``` from within ```less``` if you forget). Scroll with the arrow keys, left, right, up, and down.
+```bash
+less -S out.tab
+```
 
-    And delete out.tab since we are done with it:
-    ```bash
-    rm out.tab
-    ```
+And delete out.tab since we are done with it:
+```bash
+rm out.tab
+```
 
-    Remember how this output looks, we will revisit it later.
+Remember how this output looks, we will revisit it later.
 
 1. Now lets change the command slightly.
-    ```bash
-    hts_Stats -1 mouse_110_WT_C.subset_R1.fastq.gz \
-              -2 mouse_110_WT_C.subset_R2.fastq.gz \
-              -L mouse_110_WT_C.stats.json -f mouse_110_WT_C.stats
-    ```
 
-    * *What parameters did we use, what do they do? (-1 Read1; -2 Read2; -L create stats file; -f prefix for output files)*
+```bash
+hts_Stats -1 mouse_110_WT_C.subset_R1.fastq.gz \
+            -2 mouse_110_WT_C.subset_R2.fastq.gz \
+            -L mouse_110_WT_C.stats.json -f mouse_110_WT_C.stats
+```
 
-    Lets take a look at the output of stats
+* *What parameters did we use, what do they do? (-1 Read1; -2 Read2; -L create stats file; -f prefix for output files)*
 
-    ```bash
-    ls -lah
-    ```
+Lets take a look at the output of stats
 
-    <div class="output">
-    total 20M
-    drwxrwsr-x 2 jli workshop    7 Jun 15 15:08 .
-    drwxrwsr-x 8 jli workshop   32 Jun 15 15:06 ..
-    -rw-rw-r-- 1 jli workshop  40K Jun 15 15:07 mouse_110_WT_C.stats.json
-    -rw-rw-r-- 1 jli workshop 4.7M Jun 15 15:07 mouse_110_WT_C.stats_R1.fastq.gz
-    -rw-rw-r-- 1 jli workshop 5.0M Jun 15 15:07 mouse_110_WT_C.stats_R2.fastq.gz
-    -rw-rw-r-- 1 jli workshop 4.7M Jun 15 15:06 mouse_110_WT_C.subset_R1.fastq.gz
-    -rw-rw-r-- 1 jli workshop 5.0M Jun 15 15:06 mouse_110_WT_C.subset_R2.fastq.gz
-    </div>
+```bash
+ls -lah
+```
 
-    * *Which files were generated from hts\_Stats? (mouse_110_WT_C.stats.json, mouse_110_WT_C.stats_R1.fastq.gz, mouse_110_WT_C.stats_R2.fastq.gz)*
-    * *Did stats change any of the data (are the contents of mouse_110_WT_C.stats_R1.fastq.gz identical to mouse_110_WT_C.subset_R1.fastq.gz)? (no)*
+<div class="output">
+total 20M
+drwxrwsr-x 2 jli workshop    7 Jun 15 15:08 .
+drwxrwsr-x 8 jli workshop   32 Jun 15 15:06 ..
+-rw-rw-r-- 1 jli workshop  40K Jun 15 15:07 mouse_110_WT_C.stats.json
+-rw-rw-r-- 1 jli workshop 4.7M Jun 15 15:07 mouse_110_WT_C.stats_R1.fastq.gz
+-rw-rw-r-- 1 jli workshop 5.0M Jun 15 15:07 mouse_110_WT_C.stats_R2.fastq.gz
+-rw-rw-r-- 1 jli workshop 4.7M Jun 15 15:06 mouse_110_WT_C.subset_R1.fastq.gz
+-rw-rw-r-- 1 jli workshop 5.0M Jun 15 15:06 mouse_110_WT_C.subset_R2.fastq.gz
+</div>
+
+* *Which files were generated from hts\_Stats? (mouse_110_WT_C.stats.json, mouse_110_WT_C.stats_R1.fastq.gz, mouse_110_WT_C.stats_R2.fastq.gz)*
+* *Did stats change any of the data (are the contents of mouse_110_WT_C.stats_R1.fastq.gz identical to mouse_110_WT_C.subset_R1.fastq.gz)? (no)*
 
 1. Lets look at the file **mouse_110_WT_C.stats.json**
 
-    ```bash
-    less -S mouse_110_WT_C.stats.json
-    ```
+```bash
+less -S mouse_110_WT_C.stats.json
+```
 
-    The logs generated by htstream are in [JSON](https://en.wikipedia.org/wiki/JSON) format, like a database format but meant to be readable.
-
+The logs generated by htstream are in [JSON](https://en.wikipedia.org/wiki/JSON) format, like a database format but meant to be readable.
 
 
 ### Next we are going to screen from ribosomal RNA (rRNA).
