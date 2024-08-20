@@ -230,19 +230,24 @@ zcat mouse_110_WT_C.R1.fastq.gz | grep -c "^@A00461:28"
 
 Now go back to your 'rnaseq_example' directory and create two directories called 'slurmout' and '01-HTS_Preproc':
 
-    ```bash
-    cd /share/workshop/$USER/rnaseq_example
-    mkdir References
-    mkdir 01-HTS_Preproc
-    ```
+
+```bash
+cd /share/workshop/$USER/rnaseq_example
+mkdir References
+mkdir 01-HTS_Preproc
+```
+
 
 We'll put reference sequence, genome, etc. in the References directory. The results of all our slurm script will output .out and .err files into the slurmout folder. The results of our preprocessing steps will be put into the 01-HTS_Preproc directory. The next step after that will go into a "02-..." directory, etc. You can collect scripts that perform each step, and notes and metadata relevant for each step, in the directory for that step. This way anyone looking to replicate your analysis has limited places to search for the commands you used. In addition, you may want to change the permissions on your original 00-RawData directory to "read only", so that you can never accidentally corrupt (or delete) your raw data. We won't worry about this here, because we've linked in sample folders.
 
 Your directory should then look like the below:
- ```
+
+
+```
 $ ls
 00-RawData  01-HTS_Preproc  References  samples.txt
 ```
+
 
 ### Questions you should now be able to answer.
 
