@@ -1,8 +1,12 @@
 # Retreiving Annotation via biomart
 
-Annotation from [BioMart](https://useast.ensembl.org/biomart/martview/)  with Ensembl names is most flexible way to retrieve tabular annotation for an organism.
+Annotation from [BioMart](https://www.ensembl.org/biomart/martview/)  with Ensembl names is most flexible way to retrieve tabular annotation for an organism.
 
-1. The [Biomart](https://useast.ensembl.org/biomart/martview/) start page should look like ...
+Ensembl's BioMart is a powerful data mining tool that allows researchers to easily access and download a wide range of genomic annotations for various organisms. BioMart enables users to filter and retrieve specific datasets from the Ensembl database, including gene annotations, sequence information, and comparative genomics data. This resource is highly customizable, offering the ability to select specific attributes, such as gene IDs, transcripts, protein sequences, and more, tailored to the user's research needs.
+
+## Lets download the current annotation for Mouse.
+
+1. The [Biomart](https://www.ensembl.org/biomart/martview/) start page should look like ...
 
 <img src="annotation_mm_figures/annotation_figures1.png" alt="annotation_figures1" width="80%" style="border:5px solid #ADD8E6;"/>
 
