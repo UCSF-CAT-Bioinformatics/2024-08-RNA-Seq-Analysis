@@ -541,9 +541,6 @@ hts_QWindowTrim trims 5' and/or 3' end of the sequence using a windowing (averag
 
 ### What does all this preprocessing get you
 
-Comparing Salmon quant, raw vs preprocessed reads
-
-<img src="preproc_mm_figures/reads_per_gene_raw_hts.png" alt="final" width="50%"/>
 <img src="preproc_mm_figures/reads_per_gene_raw_hts-zoomed.png" alt="final" width="50%"/>
 
 Note that the very highly expressed transcript is [Lysozyme 2, ENSMUST00000092163.8](http://uswest.ensembl.org/Mus_musculus/Transcript/Summary?g=ENSMUSG00000069516;r=10:117277331-117282321;t=ENSMUST00000092163), a [primarily bacteriolytic enzyme](https://www.uniprot.org/uniprot/P08905). Not surprising given that "monocytes are components of the mononuclear phagocyte system that is involved in rapid recognition and clearance of invading pathogens".
@@ -597,7 +594,7 @@ Note the patterns:
 
 ## Run HTStream on the Project.
 
-We can now run the preprocessing routine across all samples on the real data using a SLURM script, [hts_preproc.slurm](../software_scripts/scripts/hts_preproc.slurm), that we should take a look at now.
+We can now run the preprocessing routine across all samples on the real data using a bash script, [hts_preproc.slurm](../software_scripts/scripts/hts_preproc.slurm), that we should take a look at now.
 
 ```bash
 cd /share/workshop/$USER/rnaseq_example  # We'll run this from the main directory
@@ -609,53 +606,41 @@ When you are done, type "q" to exit.
 
 <div class="script">#!/bin/bash
 
-#SBATCH --job-name=htstream # Job name
-#SBATCH --nodes=1
-#SBATCH --ntasks=9
-#SBATCH --time=60
-#SBATCH --mem=3000 # Memory pool for all cores (see also --mem-per-cpu)
-#SBATCH --partition=production
-#SBATCH --reservation=rnaworkshop
-#SBATCH --account=workshop
-#SBATCH --array=1-22
-#SBATCH --output=slurmout/htstream_%A_%a.out # File to which STDOUT will be written
-#SBATCH --error=slurmout/htstream_%A_%a.err # File to which STDERR will be written
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=myemail@email.com
+#!/bin/bash
+
+## assumes htstream is available on the Path
 
 start=`date +%s`
 echo $HOSTNAME
-echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
-
-sample=`sed "${SLURM_ARRAY_TASK_ID}q;d" samples.txt`
 
 inpath="00-RawData"
 outpath="01-HTS_Preproc"
 [[ -d ${outpath} ]] || mkdir ${outpath}
-[[ -d ${outpath}/${sample} ]] || mkdir ${outpath}/${sample}
 
-echo "SAMPLE: ${sample}"
+for sample in `cat samples.txt`
+do
+  [[ -d ${outpath}/${sample} ]] || mkdir ${outpath}/${sample}
+  echo "SAMPLE: ${sample}"
 
-module load htstream/1.3.3
+  call="hts_Stats -L ${outpath}/${sample}/${sample}.json -N 'initial stats' \
+            -1 ${inpath}/${sample}.R1.fastq.gz \
+            -2 ${inpath}/${sample}.R2.fastq.gz | \
+        hts_SeqScreener -A ${outpath}/${sample}/${sample}.json -N 'screen phix' | \
+        hts_SeqScreener -A ${outpath}/${sample}/${sample}.json -N 'count the number of rRNA reads'\
+            -r -s References/human_rrna.fasta | \
+        hts_SuperDeduper -A ${outpath}/${sample}/${sample}.json -N 'remove PCR duplicates' | \
+        hts_AdapterTrimmer -A ${outpath}/${sample}/${sample}.json -N 'trim adapters' | \
+        hts_PolyATTrim --no-left --skip_polyT  -A ${outpath}/${sample}/${sample}.json -N 'remove polyAT tails' | \
+        hts_NTrimmer -A ${outpath}/${sample}/${sample}.json -N 'remove any remaining N characters' | \
+        hts_QWindowTrim -A ${outpath}/${sample}/${sample}.json -N 'quality trim the ends of reads' | \
+        hts_LengthFilter -A ${outpath}/${sample}/${sample}.json -N 'remove reads < 50bp' \
+            -n -m 50 | \
+        hts_Stats -A ${outpath}/${sample}/${sample}.json -N 'final stats' \
+            -f ${outpath}/${sample}/${sample}"
 
-call="hts_Stats -L ${outpath}/${sample}/${sample}.json -N 'initial stats' \
-          -1 ${inpath}/${sample}/*R1.fastq.gz \
-          -2 ${inpath}/${sample}/*R2.fastq.gz | \
-      hts_SeqScreener -A ${outpath}/${sample}/${sample}.json -N 'screen phix' | \
-      hts_SeqScreener -A ${outpath}/${sample}/${sample}.json -N 'count the number of rRNA reads'\
-          -r -s References/mouse_rrna.fasta | \
-      hts_SuperDeduper -A ${outpath}/${sample}/${sample}.json -N 'remove PCR duplicates' | \
-      hts_AdapterTrimmer -A ${outpath}/${sample}/${sample}.json -N 'trim adapters' | \
-      hts_PolyATTrim -A ${outpath}/${sample}/${sample}.json -N 'remove polyAT tails' | \
-      hts_NTrimmer -A ${outpath}/${sample}/${sample}.json -N 'remove any remaining N characters' | \
-      hts_QWindowTrim -A ${outpath}/${sample}/${sample}.json -N 'quality trim the ends of reads' | \
-      hts_LengthFilter -A ${outpath}/${sample}/${sample}.json -N 'remove reads < 50bp' \
-          -n -m 50 | \
-      hts_Stats -A ${outpath}/${sample}/${sample}.json -N 'final stats' \
-          -f ${outpath}/${sample}/${sample}"
-
-echo $call
-eval $call
+  echo $call
+  eval $call
+done
 
 end=`date +%s`
 runtime=$((end-start))
@@ -667,9 +652,8 @@ Double check to make sure that slurmout and 01-HTS_Preproc directories have been
 
 ```bash
 cd /share/workshop/$USER/rnaseq_example
-mkdir -p slurmout  # -p tells mkdir not to complain if the directory already exists
 mkdir -p 01-HTS_Preproc
-sbatch hts_preproc.slurm  # moment of truth!
+bash hts_preproc.sh  # moment of truth!
 ```
 
 We can watch the progress of our task array using the 'squeue' command. Takes about 30 minutes to process each sample.
