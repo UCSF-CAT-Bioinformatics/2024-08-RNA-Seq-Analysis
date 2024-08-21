@@ -606,8 +606,6 @@ When you are done, type "q" to exit.
 
 <div class="script">#!/bin/bash
 
-#!/bin/bash
-
 ## assumes htstream is available on the Path
 
 start=`date +%s`
@@ -654,12 +652,6 @@ Double check to make sure that slurmout and 01-HTS_Preproc directories have been
 cd /share/workshop/$USER/rnaseq_example
 mkdir -p 01-HTS_Preproc
 bash hts_preproc.sh  # moment of truth!
-```
-
-We can watch the progress of our task array using the 'squeue' command. Takes about 30 minutes to process each sample.
-
-```bash
-squeue -u $USER  # use your username
 ```
 
 

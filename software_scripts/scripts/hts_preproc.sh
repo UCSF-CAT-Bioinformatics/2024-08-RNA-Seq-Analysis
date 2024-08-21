@@ -19,7 +19,7 @@ do
             -2 ${inpath}/${sample}.R2.fastq.gz | \
         hts_SeqScreener -A ${outpath}/${sample}/${sample}.json -N 'screen phix' | \
         hts_SeqScreener -A ${outpath}/${sample}/${sample}.json -N 'count the number of rRNA reads'\
-            -r -s References/human_rrna.fasta | \
+            -r -s References/mouse_rrna.fasta | \
         hts_SuperDeduper -A ${outpath}/${sample}/${sample}.json -N 'remove PCR duplicates' | \
         hts_AdapterTrimmer -A ${outpath}/${sample}/${sample}.json -N 'trim adapters' | \
         hts_PolyATTrim --no-left --skip_polyT  -A ${outpath}/${sample}/${sample}.json -N 'remove polyAT tails' | \
