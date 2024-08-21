@@ -214,7 +214,7 @@ So we ```zcat``` (uncompress and send to stdout), pipe ```|```  to ```head``` (p
 
 * *How many reads are we going to analyze in our subset? (100000)*
 
-1. Now we'll run our first preprocessing step ```hts_Stats```, first loading the module and then looking at help.
+1. Now we'll run our first preprocessing step ```hts_Stats```, first looking at help.
 
 ```bash
 cd /share/workshop/$USER/rnaseq_example/HTS_testing
@@ -594,7 +594,7 @@ Note the patterns:
 
 ## Run HTStream on the Project.
 
-We can now run the preprocessing routine across all samples on the real data using a bash script, [hts_preproc.slurm](../software_scripts/scripts/hts_preproc.slurm), that we should take a look at now.
+We can now run the preprocessing routine across all samples on the real data using a bash script, [hts_preproc.sh](../software_scripts/scripts/hts_preproc.sh), that we should take a look at now.
 
 ```bash
 cd /share/workshop/$USER/rnaseq_example  # We'll run this from the main directory
@@ -646,7 +646,7 @@ echo $runtime
 </div>
 
 
-Double check to make sure that slurmout and 01-HTS_Preproc directories have been created for output, then after looking at the script, let's run it.
+Double check to make sure that the 01-HTS_Preproc directory has been created for output, then after looking at the script, let's run it.
 
 ```bash
 cd /share/workshop/$USER/rnaseq_example
@@ -668,7 +668,6 @@ The first step in this process is to talk with your sequencing provider to ask a
 A nice run showing fairly random distribution of bases per cycle, > 80% bases above Q30, good cluster density and high pass filter rate, and very little drop off in read quality even at the end of the read.  
 
 
-
 <img src="preproc_mm_figures/bad_run_PDs.png" alt="bad" width="100%"/>
 A poor run showing less base diversity, only 39% bases above Q30, potentially too high cluster density and low pass filter rate, and extreme drop off in read quality after ~100bp of R1, and an even worse profile in R2.  
 
@@ -679,88 +678,78 @@ The next step is to consider quality metrics for each sample. The key considerat
 The JSON files output by HTStream provide this type of information.
 
 
-1. Let's make sure that all jobs completed successfully.
+1. Let's make sure that all sampoles completed successfully.
 
-    First check all the "htstream_\*.out" and "htstream_\*.err" files:
+check the output files. First check the number of forward and reverse output
 
-    ```bash
-    cd /share/workshop/$USER/rnaseq_example
-    cat slurmout/htstream_*.out
-    ```
+```bash
+cd 01-HTS_Preproc
+ls */*_R1* | wc -l
+ls */*_R2* | wc -l
+```
 
-    Look through the output and make sure you don't see any errors. Now do the same for the err files:
-
-    ```bash
-    cat slurmout/htstream_*.err
-    ```
-
-    Also, check the output files. First check the number of forward and reverse output files (should be 22 each):
-
-    ```bash
-    cd 01-HTS_Preproc
-    ls */*_R1* | wc -l
-    ls */*_R2* | wc -l
-    ```
-
-    *Did you get the answer you expected, why or why not?*
+*Did you get the answer you expected, why or why not?*
 
 
-    Check the sizes of the files as well. Make sure there are no zero or near-zero size files and also make sure that the size of the files are in the same ballpark as each other:
+Check the sizes of the files as well. Make sure there are no zero or near-zero size files and also make sure that the size of the files are in the same ballpark as each other:
 
-    ```bash
-    ls -lh *
+```bash
+ls -lh *
 
-    du -sh *
-    ```
+du -sh *
+```
 
-    *All of the samples started with the same number of reads. What can you tell from the file sizes about how cleaning went across the samples?*
+*All of the samples started with the same number of reads. What can you tell from the file sizes about how cleaning went across the samples?*
 
-    **IF for some reason HTStream didn't finish, the files are corrupted or you missed the session, please let one of us know and we will help. You can also copy over the HTStream output.**
+**IF for some reason HTStream didn't finish, the files are corrupted or you missed the session, please let me know and I will help. You can also copy over the HTStream output.**
 
-    ```bash
-    cp -r /share/biocore/workshops/2020_mRNAseq_July/01-HTS_Preproc /share/workshop/$USER/rnaseq_example/.
-    ```
+```bash
+cp -r /share/workshop/original_dataset/01-HTS_Preproc /share/workshop/$USER/rnaseq_example/.
+```
 
 1. Let's take a look at the differences in adapter content between the input and output files. First look at the input file:
 
-    ```bash
-    cd /share/workshop/$USER/rnaseq_example
-    zless 00-RawData/mouse_110_WT_C.R1.fastq.gz
-    ```
-
-    Let's search for the adapter sequence. Type '/' (a forward slash), and then type **AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC** (the first part of the forward adapter). Press Enter. This will search for the sequence in the file and highlight each time it is found. You can now type "n" to cycle through the places where it is found. When you are done, type "q" to exit.
-
-    Now look at the output file:
-
-    ```bash
-    zless 01-HTS_Preproc/mouse_110_WT_C_R1.fastq.gz
-    ```
-
-    If you scroll through the data (using the spacebar), you will see that some of the sequences have been trimmed. Now, try searching for **AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC** again. You shouldn't find it (adapters were trimmed remember), but rarely is anything perfect. You may need to use Control-C to get out of the search and then "q" to exit the 'less' screen.
-
-    Lets grep for the sequence and get an idea of where it occurs in the raw sequences:
-
-    ```bash
-    zcat  00-RawData/mouse_110_WT_C.R1.fastq.gz | grep --color=auto  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
-    ```
-
-    * *What do you observe? Are these sequences useful for analysis?*
-
-    ```bash
-    zcat  01-HTS_Preproc/mouse_110_WT_C_R1.fastq.gz | grep --color=auto  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
-    ```
+```bash
+cd /share/workshop/$USER/rnaseq_example
+zless 00-RawData/mouse_110_WT_C.R1.fastq.gz
+```
 
 
-    Lets grep for the sequence and count occurrences
+Let's search for the adapter sequence. Type '/' (a forward slash), and then type **AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC** (the first part of the forward adapter). Press Enter. This will search for the sequence in the file and highlight each time it is found. You can now type "n" to cycle through the places where it is found. When you are done, type "q" to exit.
 
-    ```bash
-    zcat  00-RawData/mouse_110_WT_C.R1.fastq.gz | grep  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC | wc -l
-    zcat  01-HTS_Preproc/mouse_110_WT_C_R1.fastq.gz | grep  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC | wc -l
-    ```
+Now look at the output file:
 
-    * *What is the reduction in adapters found?* (1704812)
 
-    * *How could you modify the cleaning pipeline in order to remove the remaining sequences?*
+```bash
+zless 01-HTS_Preproc/mouse_110_WT_C/mouse_110_WT_C_R1.fastq.gz
+```
+
+
+If you scroll through the data (using the spacebar), you will see that some of the sequences have been trimmed. Now, try searching for **AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC** again. You shouldn't find it (adapters were trimmed remember), but rarely is anything perfect. You may need to use Control-C to get out of the search and then "q" to exit the 'less' screen.
+
+Lets grep for the sequence and get an idea of where it occurs in the raw sequences:
+
+```bash
+zcat  00-RawData/mouse_110_WT_C.R1.fastq.gz | grep --color=auto  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
+```
+
+ * *What do you observe? Are these sequences useful for analysis?*
+
+ ```bash
+ zcat  01-HTS_Preproc/mouse_110_WT_C/mouse_110_WT_C_R1.fastq.gz | grep --color=auto  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
+ ```
+
+
+Lets grep for the sequence and count occurrences
+
+```bash
+zcat  00-RawData/mouse_110_WT_C.R1.fastq.gz | grep  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC | wc -l
+zcat  01-HTS_Preproc/mouse_110_WT_C/mouse_110_WT_C_R1.fastq.gz | grep  AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC | wc -l
+```
+
+* *What is the reduction in adapters found?* (1704812)
+
+* *How could you modify the cleaning pipeline in order to remove the remaining sequences?*
 
 
 Primer dimers in this dataset:
@@ -769,7 +758,7 @@ Primer dimers in this dataset:
 
 
 * The set of "AAAA" bases directly adjacent to the Illumina adapter sequence are due to a spacing sequence on the flow cell. 
-* The "GGGGG" sequences occur because the NovaSeq 6000 uses a 2-channel detection system, where the "G" base is the absence of signal. Once the polymerase reaches the end of the template + spacing sequence it stops, so all subsequent flow cycles produce no signal.
+* The "GGGGG" sequences occur because the NovaSeq X uses a 2-channel detection system, where the "G" base is the absence of signal. Once the polymerase reaches the end of the template + spacing sequence it stops, so all subsequent flow cycles produce no signal.
 
 
 <img src="preproc_mm_figures/sbs-redgreen-web-graphic.jpg" alt="PrimerDimer" width="80%"/>
@@ -789,7 +778,6 @@ Finally lets use [MultiQC](https://multiqc.info/) to generate a summary of our o
 ```bash
 ## Run multiqc to collect statistics and create a report:
 cd /share/workshop/$USER/rnaseq_example
-module load multiqc/htstream.1.13.dev0_beta
 mkdir -p 02-HTS_multiqc_report
 multiqc -i HTSMultiQC-cleaning-report -o 02-HTS_multiqc_report ./01-HTS_Preproc
 ```
@@ -797,35 +785,8 @@ multiqc -i HTSMultiQC-cleaning-report -o 02-HTS_multiqc_report ./01-HTS_Preproc
 Transfer HTSMultiQC-cleaning-report_multiqc_report.html to your computer and open it in a web browser.
 
 
-Or in case of emergency, download this copy: [HTSMultiQC-cleaning-report_multiqc_report.html](HTSMultiQC-cleaning-report_multiqc_report.html)
+Or in case of emergency, download this copy: [HTSMultiQC-cleaning-report_multiqc_report.html](../datasets/02-HTS_multiqc_report/HTSMultiQC-cleaning-report_multiqc_report.html)
 
-### <font color='red'> End Group Exercise 3 </font>
-
-<!--
-    I've created a small R script to read in each json file, pull out some relevant stats and write out a table for all samples.
-
-    ```/bash
-    cd /share/workshop/$USER/rnaseq_example  # We'll run this from the main directory
-    wget https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2020-mRNA_Seq_Workshop/master/software_scripts/scripts/summarize_stats.R
-
-    module load R
-    R CMD BATCH summarize_stats.R
-    cat summary_hts.txt
-    ```
-
-    Transfer summarize_stats.txt to your computer using scp or winSCP, or copy/paste from cat [sometimes doesn't work],  
-
-    For scp try, In a new shell session on your laptop. **NOT logged into tadpole**.
-
-    ```bash
-    mkdir ~/rnaseq_workshop
-    cd ~/rnaseq_workshop
-    scp your_username@tadpole.genomecenter.ucdavis.edu:/share/workshop/your_username/rnaseq_example/summary_hts.txt .
-    ```
-
-    Open in excel (or excel like application), you may have to move the header column 1 cell to the right, and lets review.
-
--->
 **Questions**
 * *Any problematic samples?*
 

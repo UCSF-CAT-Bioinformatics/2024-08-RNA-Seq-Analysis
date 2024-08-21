@@ -1,0 +1,7 @@
+[2024-08-21 01:58:50,995] multiqc.core.update_config                         [INFO   ]  Report title: HTSMultiQC-cleaning-report
+[2024-08-21 01:58:51,643] multiqc.core.version_check                         [WARNING]  MultiQC Version v1.24 now available!
+[2024-08-21 01:58:51,645] multiqc.core.file_search                           [INFO   ]  Search path: /share/workshop/original_dataset/01-HTS_Preproc
+[2024-08-21 01:58:51,796] multiqc.modules.htstream.htstream                  [INFO   ]  Found 22 reports.
+[2024-08-21 01:58:53,120] multiqc.core.write_results                         [INFO   ]  Data        : 02-HTS_multiqc_report/HTSMultiQC-cleaning-report_multiqc_report_data
+[2024-08-21 01:58:53,358] multiqc.core.write_results                         [INFO   ]  Report      : 02-HTS_multiqc_report/HTSMultiQC-cleaning-report_multiqc_report.html
+[2024-08-21 01:58:53,361] multiqc.multiqc                                    [INFO   ]  MultiQC complete

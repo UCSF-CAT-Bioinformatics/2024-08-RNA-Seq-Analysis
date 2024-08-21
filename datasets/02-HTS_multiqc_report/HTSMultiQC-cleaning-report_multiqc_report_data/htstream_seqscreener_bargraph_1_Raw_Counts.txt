@@ -1,0 +1,23 @@
+Sample	Paired End
+mouse_110_WT_C	12
+mouse_110_WT_NC	12
+mouse_148_WT_C	10
+mouse_148_WT_NC	8
+mouse_158_WT_C	8
+mouse_158_WT_NC	6
+mouse_183_KOMIR150_C	10
+mouse_183_KOMIR150_NC	15
+mouse_198_KOMIR150_C	12
+mouse_198_KOMIR150_NC	16
+mouse_206_KOMIR150_C	28
+mouse_206_KOMIR150_NC	20
+mouse_2670_KOTet3_C	12
+mouse_2670_KOTet3_NC	13
+mouse_7530_KOTet3_C	15
+mouse_7530_KOTet3_NC	9
+mouse_7531_KOTet3_C	5
+mouse_7532_WT_NC	13
+mouse_H510_WT_C	10
+mouse_H510_WT_NC	15
+mouse_H514_WT_C	11
+mouse_H514_WT_NC	9
