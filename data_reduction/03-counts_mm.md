@@ -20,6 +20,7 @@ In this section, we will collate all of the count data into one file for analysi
 cd /share/workshop/$USER/rnaseq_example
 ```
 
+{:start="2"}
 2. First, go back to your 02-STAR_alignment directory. Let's use a wildcard to list all of the counts files from all of the STAR alignment directories:
 
 ```bash
@@ -46,6 +47,7 @@ ENSMUSG00000104017.2	0	0	0
 
 The columns are ID, reads map to either strand, reads mapped to forward strand, and reads mapped to the reverse strand and the first four lines are category totals. In this experiment, it looks like the reads are from the reverse strand, due to the much higher mapping numbers in that column and they similar to reads mapped to either strands. So what we want is just that column of numbers (minus the first four lines), for every one of these files.
 
+{:start="3"}
 3. So let's take one file and figure out how to do that, then we will expand it to all the files. First let's just get the rows we want, i.e. everything but the first four:
 
 ```bash
@@ -62,6 +64,7 @@ tail -n +5 02-STAR_alignment/mouse_110_WT_C/mouse_110_WT_C_ReadsPerGene.out.tab 
 
 Now, mouse_110_WT_C_ReadsPerGene.out.tab.count contains a single column of data... counts for each of the genes for that sample.
 
+{:start="4"}
 4.  Now, we want to do these steps for ALL of the read count files... and to do that we will be using a 'for loop' directly on the command line. First, just run a simple 'for loop' that will print out the names of all the files we want to use:
 
 ```bash
@@ -82,6 +85,7 @@ done
 
 After this command, there should be a counts file for every sample, in 03-Counts/tmp.
 
+{:start="5"}
 5. Next, we need to get the columns for the final table. Because all of these files are sorted in the exact same order (by gene ID), we can just use the columns from any of the files:
 
 ```bash
@@ -95,6 +99,7 @@ Finally, we want to combine all of these columns together using the 'paste' comm
 paste 03-Counts/tmp/geneids.txt 03-Counts/tmp/*.count > 03-Counts/tmp/tmp.out
 ```
 
+{:start="6"}
 6. The final step is to create a header of sample names and combine it with the temp file. The header is just all of the sample names separated by tabs. And again, since we pasted the columns in sorted order (wildcards automatically sort in order), the columns just need to be in that same order.
 
 We take the samples.txt file and pipe that to the sort (to ensure they are in the same order) and then 'paste' command with the '-s' option, which takes a column of values and transposes them into a row, separated by the tab character. And finally, let's put everything together:
@@ -120,7 +125,8 @@ ENSMUSG00000103201.2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 
 And now you have a raw counts file that has a count for every gene, per sample. You will use this file for the next step, which is analysis in R.
 
-1. The alignment exercise and the above exercise to generate the counts table used a subset of the original samples. But we are goint to transfer the counts table generated using the full number of samples data set and samples.txt to your computer
+{:start="7"}
+7. The alignment exercise and the above exercise to generate the counts table used a subset of the original samples. But we are goint to transfer the counts table generated using the full number of samples data set and samples.txt to your computer
 
 
 **Questions**:
